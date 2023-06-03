@@ -24,7 +24,7 @@ export default function WeekDay(props){
     }
     
     return(
-    <Box id={parseInt(props.id)} clicked={clicked} days={contexto.selected} onClick={(x) => contexto.add ? clicar(x) : fazNada()}>{props.day}</Box>
+    <Box data-test='habit-day' id={parseInt(props.id)} clicked={clicked} days={contexto.selected} onClick={(x) => contexto.add ? clicar(x) : fazNada()}>{props.day}</Box>
     )
 }
 const Box = styled.div`

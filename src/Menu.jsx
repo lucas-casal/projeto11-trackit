@@ -37,22 +37,24 @@ export default function Menu(props){
 
     const percentage = completedHabits*100/todayHabits;
     return(<>
-        <Enfeite>
+        <Enfeite data-test='menu' >
         <MenuBar>
-        <Option onClick={() => navigate('/habitos')}>Hábitos</Option>
+        <Option data-test='habit-link' onClick={() => navigate('/habitos')}>Hábitos</Option>
 
-        <Option>Histórico</Option>
+        <Option data-test='history-link' onClick={() => {navigate('/historico')}}>Histórico</Option>
         </MenuBar> 
-        </Enfeite>
-        <ProgressBarContainer onClick={() => {navigate('/hoje'); console.log('ok')}}>
-        <CircularProgressbar value={percentage} text={percentage} background backgroundPadding={6} styles={buildStyles({
+       
+        <ProgressBarContainer data-test='today-link' onClick={() => {navigate('/hoje')}}>
+        <CircularProgressbar value={percentage} text='Hoje' background backgroundPadding={6} styles={buildStyles({
             pathColor: `rgba(255, 255, 255)`,
             textColor: '#fff',
             trailColor: '#52B6FF',
             backgroundColor: '#52B6FF',
         })}/>
         </ProgressBarContainer>
+        </Enfeite>
         </>
+
     )
 }
 

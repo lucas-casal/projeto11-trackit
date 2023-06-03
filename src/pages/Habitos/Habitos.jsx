@@ -69,6 +69,7 @@ export default function Habitos(props){
 
     function deleteHabit(x){
         const result = confirm('Você deseja excluir permanentemente o hábito ?')
+        console.log(x.target.id)
         if (result === true){
         const promise = axios.delete('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/' + x.target.id, {
             headers: {
@@ -78,15 +79,15 @@ export default function Habitos(props){
         promise.then(res => {
             console.log(res);
             props.setReload(true)
-        })} else{alert}
+        })} else{alert('Seu hábito NÃO foi excluído')}
     }
 
     return(
         <Pagina>
 
-            <TopBar>
+            <TopBar data-test='header'>
                 <Logo onClick={resetLogin}> TrackIt </Logo>
-                <ProfileImg src={props.image}></ProfileImg>
+                <ProfileImg data-test='avatar' src={props.image}></ProfileImg>
             </TopBar>
 
             <Header>
@@ -94,15 +95,15 @@ export default function Habitos(props){
                     Meus hábitos
                 </MeusHabitos>
                 <Contexto.Provider value={{margin: true, text:'+', width: '40px' , height: '35px', disabled: false}}>
-                <Button onClick={props.createNewHabit}></Button>
+                <Button datatest='habit-create-btn' onClick={props.createNewHabit}></Button>
                 </Contexto.Provider>
             </Header>
             <HabitsContainer>
             
-            <CreatingHabit addingHabit={props.addingHabit}>
+            <CreatingHabit data-test='habit-create-container' addingHabit={props.addingHabit}>
                 <form onSubmit={props.postHabit}>
                     <Contexto.Provider value={{value: props.newHabit, marginTop: '9px', marginBot: '0' ,type: 'text', text:'nome do hábito', onChange: props.handleHabit, disabled: props.bool}}>
-                    <Input required></Input>
+                    <Input datatest='habit-name-input' required></Input>
                     </Contexto.Provider>
 
                     <WeekDaysSelector>
@@ -118,9 +119,9 @@ export default function Habitos(props){
                     </WeekDaysSelector>
 
                     <FormFooter>
-                        <CancelForm onClick={props.reset} type='button' /*type="reset"*/ value="Cancelar"/>
-                        <Contexto.Provider value={{fontSize: '16px', margin: false, text:'Salvar', width: '84px' , height: '35px', disabled: false}}>
-                        <Button></Button>
+                        <CancelForm data-test='habit-create-cancel-btn' onClick={props.reset} type='button' /*type="reset"*/ value="Cancelar"/>
+                        <Contexto.Provider value={{fontSize: '16px', margin: false, text:'Salvar', width: '84px' , height: '35px', disabled: props.bool}}>
+                        <Button datatest='habit-create-save-btn'></Button>
                         </Contexto.Provider>
                     </FormFooter>
                 </form>
@@ -131,7 +132,7 @@ export default function Habitos(props){
                 </HabitsPlaceHolder> 
 
                 {arrayDeHabitos.map((x) => {
-                   return <HabitosCriados key={x.id} id={x.id} deleteHabit={deleteHabit} name={x.name} weekdays={x.days}/>
+                   return <HabitosCriados datatest={'habit-name'} key={x.id} id={x.id} deleteHabit={deleteHabit} name={x.name} weekdays={x.days}/>
                 })}
                 
             </HabitsContainer>

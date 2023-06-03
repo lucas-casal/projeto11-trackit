@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { Navigate, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import { Routes } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
 import Homepage from './pages/Homepage/Homepage'
 import Cadastro from './pages/Cadastro/Cadastro'
 import Habitos from './pages/Habitos/Habitos'
-import { useNavigate } from 'react-router-dom'
+import Historico from './pages/Historico/Historico'
 import axios from "axios";
 import Hoje from './pages/Hoje/Hoje'
 axios.defaults.headers.common['Authorization'] = 'bv0Ks8i80MPdXuLLvCVzJc8f';
@@ -137,8 +137,8 @@ export default function App() {
   }
 
   function postHabit(e){
-    
-    e.preventDefault(); //apagar antes de entregar
+    setBool(true)
+    e.preventDefault(); 
     if (selectedWeekDays.length > 0){
       const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits',
       {
@@ -151,12 +151,13 @@ export default function App() {
       }) 
       promise.then(res => {
         console.log(res);
+        setBool(false)
         setReload(true);
         resetAddingHabit();
         setSelectedWeekDays([]);
         setSelectedIDs([]);
         setNewHabit('');
-      }).catch(res => alert(res.response.data.message))
+      }).catch(res => {alert(res.response.data.message);  setBool(false)})
 
     } else{
       alert('Faltou selecionar os dias da semana!')
@@ -174,7 +175,9 @@ console.log(newHabit)
       <Route path="/" element={<Homepage setRegisterFB={setRegisterFB} login={loginFB} resetInputs={resetInputs} bool={bool} handleEmail={handleEmail} handlePassword={handlePassword} sendLogin={sendLogin} />}></Route>
       <Route path="/cadastro" element={<Cadastro cadastro={registerFB} resetInputs={resetInputs} bool={bool} handleEmail={handleEmail} handlePassword={handlePassword} handleName={handleName} handleImage={handleImage} sendRegister={sendRegister}/>}></Route>
       <Route path="/habitos" element={<Habitos setReload={setReload} reload={reload} setNewHabit={setNewHabit} image={image} token={token} setLoginFB={setLoginFB} postHabit={postHabit} newHabit={newHabit} createNewHabit={createNewHabit} addingHabit={addingHabit} reset={resetAddingHabit} IDs={selectedIDs} handleWeekDays={handleWeekDays} selectedWeekDays={selectedWeekDays} handleHabit={handleHabit} habitsArray={habitsArray} setHabitsArray={setHabitsArray} resetInputs={resetInputs} bool={bool} handleEmail={handleEmail} handlePassword={handlePassword} handleName={handleName} handleImage={handleImage} sendRegister={sendRegister}/>}></Route>
-      <Route path="/hoje" element={<Hoje setReload={setReload} reload={reload} setNewHabit={setNewHabit} image={image} token={token} setLoginFB={setLoginFB} postHabit={postHabit} newHabit={newHabit} createNewHabit={createNewHabit} addingHabit={addingHabit} reset={resetAddingHabit} IDs={selectedIDs} handleWeekDays={handleWeekDays} selectedWeekDays={selectedWeekDays} handleHabit={handleHabit} habitsArray={habitsArray} setHabitsArray={setHabitsArray} resetInputs={resetInputs} bool={bool} handleEmail={handleEmail} handlePassword={handlePassword} handleName={handleName} handleImage={handleImage} sendRegister={sendRegister}/>}></Route>
+      <Route path="/hoje" element={<Hoje setReload={setReload} setNewHabit={setNewHabit} reload={reload} image={image} token={token} setLoginFB={setLoginFB} bool={bool}reset={resetAddingHabit}/>}></Route>
+      <Route path="/historico" element={<Historico setReload={setReload} setNewHabit={setNewHabit} reload={reload} image={image} token={token} setLoginFB={setLoginFB} bool={bool} reset={resetAddingHabit}/>}></Route>
+    
     </Routes>
   </BrowserRouter>
     </>

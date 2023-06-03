@@ -2,10 +2,11 @@ import { useContext } from "react";
 import styled from "styled-components";
 import { Contexto } from "./Context";
 
-export default function Input(){
+export default function Input(props){
+
     const contexto = useContext(Contexto);
     return(
-        <InputBase value={contexto.value} marginTop={contexto.marginTop} marginBot={contexto.marginBot} id={contexto.type} type={contexto.type} onChange={contexto.onChange}  disabled={contexto.disabled} placeholder={contexto.text} required></InputBase>
+        <InputBase data-test={props.datatest} value={contexto.value} marginTop={contexto.marginTop} marginBot={contexto.marginBot} id={contexto.type} type={contexto.type} onChange={contexto.onChange}  disabled={contexto.disabled} placeholder={contexto.text} required></InputBase>
     )
 }
 

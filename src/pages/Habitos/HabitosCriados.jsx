@@ -12,8 +12,8 @@ useEffect(() =>{
 
 
     return (
-        <Habit key={props.id}>
-            <HabitName>
+        <Habit data-test='habit-container' key={props.id}>
+            <HabitName data-test={props.datatest}>
             {props.name}
             </HabitName>
 
@@ -33,13 +33,33 @@ useEffect(() =>{
                             Seu recorde: <DestaqueB currentSequence={props.currentSequence} highestSequence={props.highestSequence} >{props.highestSequence}</DestaqueB>
             </HabitSubtitle>
 
-            <Icon hide={hide} onClick={(x) => {props.deleteHabit(x)}} id={props.id} src="./src/assets/Group.svg"/>
+            <Icon hide={hide} data-test='habit-delete-btn' id={props.id} onClick={(x) => {props.deleteHabit(x)}}  >
+            <ion-icon name="trash-outline" id={props.id}></ion-icon>
+            </Icon>
 
-            <Icon check={true} id={props.id} onClick={(x) => props.onClick(x)} done={props.done} hide={!hide} src="./src/assets/Group2.svg" />
+            <Icon check={true} id={props.id} onClick={(x) => props.onClick(x)}  done={props.done} hide={!hide} >
+            <ion-icon name="checkmark-outline"id={props.id}  ></ion-icon>    
+            </Icon>
         
         </Habit>
     )
 }
+const Icon = styled.div`
+    box-sizing: border-box;
+    width: ${x => x.check ? '70px' : '20px'};
+    height: ${x => x.check ? '70px' : 'auto'};
+    padding: ${x => x.check ? '15px 0 0 15px' : '0 0 0 0 '};
+    border-radius: 5px;
+    font-size: ${x => x.check ? '40px' : '20px'};
+    color: ${x => x.check ? '#FFFFFF' : '#666666'};
+    position: absolute;
+    right: 10px;
+    top: 11px;
+    background-color: ${x => x.check ? (x.done ? '#8FC549' : '#EBEBEB') : ''};
+    display: ${x => x.hide ? 'none' : 'auto'};
+
+`
+
 const HabitSubtitle = styled.p`
     font-family: 'Lexend Deca', sans-serif;
     width: 100%;
@@ -113,15 +133,3 @@ const Habit = styled.div`
     position: relative;
 `
 
-const Icon = styled.img`
-    width: ${x => x.check ? '35px' : '13px'};
-    height: ${x => x.check ? '35px' : 'auto'};
-    padding: ${x => x.check ? '20px 15px 20px 19px' : '0 0 0 0 '};
-    border-radius: 5px;
-    position: absolute;
-    right: 10px;
-    top: 11px;
-    background-color: ${x => x.check ? (x.done ? '#8FC549' : '#EBEBEB') : ''};
-    display: ${x => x.hide ? 'none' : 'auto'};
-
-`

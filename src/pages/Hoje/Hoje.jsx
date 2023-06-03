@@ -105,7 +105,7 @@ export default function Hoje(props){
 
                 }) .catch(res => {
                 console.log(res);
-
+   
                 }) .finally(() => {setBool(false); console.log('bul voltou')})
             } 
         }else {
@@ -115,23 +115,23 @@ export default function Hoje(props){
 
     return(
         <Pagina>
-
-            <TopBar>
+            <TopBar data-test='header'>
                 <Logo onClick={resetLogin}> TrackIt </Logo>
-                <ProfileImg src={props.image}></ProfileImg>
+                <ProfileImg data-test='avatar' src={props.image}></ProfileImg>
             </TopBar>
 
+
             <Header>
-                <MeusHabitos>
+                <MeusHabitos data-test='today'>
                     {Dsemana}, {Dmes}/{mes}
                 </MeusHabitos>
-                <DayStatus green={doneHabits}>
+                <DayStatus green={doneHabits} data-test='today-counter'>
                     {doneHabits > 0 ? doneHabits + '% dos hábitos concluídos' : 'Nenhum hábito concluído ainda'}
                 </DayStatus>
             </Header>
             <HabitsContainer>
                 {arrayDeHabitos.map((x) => {
-                   return <HabitosCriados onClick={madeTheHabit} key={x.id} id={x.id} name={x.name} highestSequence={x.highestSequence} currentSequence={x.currentSequence} record={x.record} done={x.done} weekdays={hide}/>
+                   return <HabitosCriados datatest={'today-habit-name'} onClick={madeTheHabit} key={x.id} id={x.id} name={x.name} highestSequence={x.highestSequence} currentSequence={x.currentSequence} record={x.record} done={x.done} weekdays={hide}/>
                 })}
                 
                 

@@ -25,28 +25,28 @@ useEffect(()=> {
             
             <form onSubmit={(e) => props.sendRegister(e)}>
             <Contexto.Provider value={{type:'email' ,text: 'email', onChange: props.handleEmail, disabled: props.bool}}>
-                <Input />
+                <Input datatest='email-input'/>
             </Contexto.Provider>
             <Contexto.Provider value={{type:'password' ,text: 'senha', onChange: props.handlePassword, disabled: props.bool}}>
-                <Input />
+                <Input datatest='password-input'/>
             </Contexto.Provider>
             <Contexto.Provider value={{type:'text' ,text: 'nome', onChange: props.handleName, disabled: props.bool}}>
-                <Input />
+                <Input datatest='user-name-input'/>
             </Contexto.Provider>
             <Contexto.Provider value={{type:'url' ,text: 'foto', onChange: props.handleImage, disabled: props.bool}}>
-                <Input />
+                <Input datatest='user-image-input' />
             </Contexto.Provider>
             
             <Contexto.Provider value={{margin: false, text:'Cadastrar', width: '305px' , height: '47px', disabled: props.bool}}>
 
-            <Button></Button>    
+            <Button datatest='signup-btn'></Button>    
 
             </Contexto.Provider>
             </form>
 
-            <Link to={'/'}>
-            <AccountLess>Já tem uma conta? Faça login!</AccountLess>
-            </Link>
+        
+            <AccountLess data-test='login-link' onClick={() => navigate('/')}>Já tem uma conta? Faça login!</AccountLess>
+            
         </Pagina>
     
     )

@@ -17,7 +17,7 @@ visible={true}
 export default function Button(props) {
     const contexto = useContext(Contexto);
     return (
-        <ButtonBase onClick={props.onClick ? props.onClick : fazNada} id={contexto.text} type="submit" BtnInfo={contexto} disabled={contexto.disabled}>{contexto.disabled ? pontinhos : contexto.text}</ButtonBase>
+        <ButtonBase data-test={props.datatest} onClick={props.onClick ? props.onClick : fazNada} id={contexto.text} type="submit" BtnInfo={contexto} disabled={contexto.disabled}>{contexto.disabled ? pontinhos : contexto.text}</ButtonBase>
     )
 }
 

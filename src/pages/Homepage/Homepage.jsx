@@ -32,19 +32,19 @@ export default function Homepage(props){
             
             <form onSubmit={(e) => props.sendLogin(e)}>
                 <Contexto.Provider value={{type:'email' , text:'email', onChange: props.handleEmail, disabled: props.bool}}>
-                    <Input />
+                    <Input datatest='email-input'/>
                 </Contexto.Provider>
                 <Contexto.Provider value={{type: 'password', text:'senha', onChange: props.handlePassword, disabled: props.bool}}>
-                    <Input />
+                    <Input datatest='password-input'/>
                 </Contexto.Provider>
                 <Contexto.Provider value={{margin: false, text:'Entrar', width: '305px' , height: '47px', disabled: props.bool}}>
 
-                <Button></Button>    
+                <Button datatest='login-btn'></Button>    
 
                 </Contexto.Provider>
             </form>
             
-            <AccountLess onClick={resetRegister}>Não tem uma conta? Cadastre-se!</AccountLess>
+            <AccountLess data-test='signup-link' onClick={resetRegister}>Não tem uma conta? Cadastre-se!</AccountLess>
             
         </Pagina>
     
