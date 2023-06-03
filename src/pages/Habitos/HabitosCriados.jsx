@@ -33,9 +33,9 @@ useEffect(() =>{
                             Seu recorde: <DestaqueB currentSequence={props.currentSequence} highestSequence={props.highestSequence} >{props.highestSequence}</DestaqueB>
             </HabitSubtitle>
 
-            <Icon hide={hide} onClick={(x) => {props.deleteHabit(x)}} id={props.id} src="src/assets/Group.svg"/>
+            <Icon hide={hide} onClick={(x) => {props.deleteHabit(x)}} id={props.id} src="./src/assets/Group.svg"/>
 
-            <Icon check={true} id={props.id} onClick={(x) => props.onClick(x)} done={props.done} hide={!hide} src="src/assets/Group2.svg" />
+            <Icon check={true} id={props.id} onClick={(x) => props.onClick(x)} done={props.done} hide={!hide} src="./src/assets/Group2.svg" />
         
         </Habit>
     )

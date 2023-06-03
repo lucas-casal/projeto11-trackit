@@ -21,7 +21,7 @@ useEffect(()=> {
     
         <Pagina>
             
-            <Logo src="./src/assets/Logo.png"></Logo>
+            <Logo src="https://trackit-teal.vercel.app/static/media/logo.cb6031c1a7782aa4e40b.png"></Logo>
             
             <form onSubmit={(e) => props.sendRegister(e)}>
             <Contexto.Provider value={{type:'email' ,text: 'email', onChange: props.handleEmail, disabled: props.bool}}>
