@@ -11,7 +11,7 @@ export default function WeekDay(props){
 
 
     
-        /*useEffect(atualizar, [contexto.addingHabit])*/
+    useEffect(atualizar, [contexto.reset])
     function fazNada(){}
     function clicar(x){
         contexto.add(x)
@@ -19,10 +19,10 @@ export default function WeekDay(props){
     }
 
 
-    /*function atualizar(){
+    function atualizar(){
        contexto.addingHabit ? '': setClicked(false);
-    }*/
-
+    }
+    
     return(
     <Box id={parseInt(props.id)} clicked={clicked} days={contexto.selected} onClick={(x) => contexto.add ? clicar(x) : fazNada()}>{props.day}</Box>
     )

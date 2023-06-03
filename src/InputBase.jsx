@@ -5,7 +5,7 @@ import { Contexto } from "./Context";
 export default function Input(){
     const contexto = useContext(Contexto);
     return(
-        <InputBase marginTop={contexto.marginTop} marginBot={contexto.marginBot} id={contexto.type} type={contexto.type} onChange={contexto.onChange}  disabled={contexto.disabled} placeholder={contexto.text} required></InputBase>
+        <InputBase value={contexto.value} marginTop={contexto.marginTop} marginBot={contexto.marginBot} id={contexto.type} type={contexto.type} onChange={contexto.onChange}  disabled={contexto.disabled} placeholder={contexto.text} required></InputBase>
     )
 }
 

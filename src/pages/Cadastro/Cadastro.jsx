@@ -9,9 +9,13 @@ import { useNavigate } from "react-router-dom";
 
 export default function Cadastro(props){
  const navigate = useNavigate();
+
+ function registrar(){
+    props.cadastro ? navigate('/') : ''
+ }
 useEffect(()=> {
-    props.resetInputs();
-},[])
+    registrar();
+},[props.cadastro])
   
     return (
     
@@ -19,7 +23,7 @@ useEffect(()=> {
             
             <Logo src="./src/assets/Logo.png"></Logo>
             
-            <form onSubmit={() => {props.sendRegister;   navigate('/habitos')}}>
+            <form onSubmit={(e) => props.sendRegister(e)}>
             <Contexto.Provider value={{type:'email' ,text: 'email', onChange: props.handleEmail, disabled: props.bool}}>
                 <Input />
             </Contexto.Provider>

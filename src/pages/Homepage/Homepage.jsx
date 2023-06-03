@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Input from "../../InputBase";
 import { Contexto } from "../../Context";
@@ -7,18 +6,31 @@ import Button from "../../Button";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 export default function Homepage(props){
     const navigate = useNavigate();
+
+
+    function logar(){
+        props.login ? navigate('/habitos') : ''
+    }
     useEffect(()=> {
-        props.resetInputs();
-    },[])
+        logar()
+    },[props.login])
+
+    function resetRegister(){
+        props.setRegisterFB(false)
+        navigate('/cadastro')
+
+    }
+
     return (
     
         <Pagina>
             
             <Logo src="./src/assets/Logo.png"></Logo>
             
-            <form onSubmit={() => {props.sendLogin;   navigate('/habitos')}}>
+            <form onSubmit={(e) => props.sendLogin(e)}>
                 <Contexto.Provider value={{type:'email' , text:'email', onChange: props.handleEmail, disabled: props.bool}}>
                     <Input />
                 </Contexto.Provider>
@@ -31,9 +43,9 @@ export default function Homepage(props){
 
                 </Contexto.Provider>
             </form>
-            <Link to={'/cadastro'}>
-            <AccountLess>Não tem uma conta? Cadastre-se!</AccountLess>
-            </Link>
+            
+            <AccountLess onClick={resetRegister}>Não tem uma conta? Cadastre-se!</AccountLess>
+            
         </Pagina>
     
     )
