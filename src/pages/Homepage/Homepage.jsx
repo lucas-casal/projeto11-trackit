@@ -12,7 +12,7 @@ export default function Homepage(props){
 
 
     function logar(){
-        props.login ? navigate('/habitos') : ''
+        props.login ? navigate('/hoje') : ''
     }
     useEffect(()=> {
         logar()
