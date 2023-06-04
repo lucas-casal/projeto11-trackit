@@ -29,15 +29,15 @@ useEffect(() =>{
                 </Contexto.Provider>
             </WeekDaysSelector>
 
-            <HabitSubtitle hide={!hide} >Sequência atual: <DestaqueA currentSequence={props.currentSequence} highestSequence={props.highestSequence} done={props.done}>{props.currentSequence}</DestaqueA> <br/>
-                            Seu recorde: <DestaqueB currentSequence={props.currentSequence} highestSequence={props.highestSequence} >{props.highestSequence}</DestaqueB>
+            <HabitSubtitle hide={!hide} >Sequência atual: <DestaqueA data-test='today-habit-sequence' currentSequence={props.currentSequence} highestSequence={props.highestSequence} done={props.done}>{props.currentSequence}</DestaqueA> <br/>
+                            Seu recorde: <DestaqueB data-test='today-habit-record' currentSequence={props.currentSequence} highestSequence={props.highestSequence} >{props.highestSequence}</DestaqueB>
             </HabitSubtitle>
 
             <Icon hide={hide} data-test='habit-delete-btn' id={props.id} onClick={(x) => {props.deleteHabit(x)}}  >
             <ion-icon name="trash-outline" id={props.id}></ion-icon>
             </Icon>
 
-            <Icon check={true} id={props.id} onClick={(x) => props.onClick(x)}  done={props.done} hide={!hide} >
+            <Icon check={true} id={props.id} data-test='today-habit-check-btn' onClick={(x) => props.onClick(x)}  done={props.done} hide={!hide} >
             <ion-icon name="checkmark-outline"id={props.id}  ></ion-icon>    
             </Icon>
         
