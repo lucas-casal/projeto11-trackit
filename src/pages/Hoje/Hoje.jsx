@@ -6,10 +6,12 @@ import HabitosCriados from "../Habitos/HabitosCriados";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import dayjs from "dayjs";
+import { UserInfoContext } from "../../contextsfolder/UserInfoContext";
+import TopBar from "../../TopBar";
 const arrayDiaDaSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
 
 export default function Hoje(props){
-    const contexto = useContext(Contexto);
+    const userContexto = useContext(UserInfoContext)
     const navigate = useNavigate();
     const [arrayDeHabitos, setArrayDeHabitos] = useState([])
     const [hide, setHide] = useState('')
@@ -35,21 +37,15 @@ export default function Hoje(props){
             x.done ? contador++ : ''
         })
         setDoneHabits(parseFloat(contador/array.length).toFixed(2) * 100)
-        console.log(parseFloat(contador/array.length).toFixed(2) * 100)
     }
 
 
-    function resetLogin(){
-        props.setLoginFB(false)
-        navigate('/')
-        props.setNewHabit('')
-        props.reset(false)
-    }
+
 
     useEffect(() => {
         const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today', {
             headers: {
-              'Authorization': `Bearer ${props.token}`
+              'Authorization': `Bearer ${userContexto.token}`
             }
           });
         promise.then(res => {
@@ -70,7 +66,7 @@ export default function Hoje(props){
             props.setReload(false)
         })
     
-    }, [props.reload,props.token])
+    }, [props.reload,userContexto.token])
 
     function madeTheHabit(x){
         const habitID = x.target.id;
@@ -79,7 +75,7 @@ export default function Hoje(props){
             if (arrayDoneHabitsID.includes(parseInt(habitID))){
                 const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/"+habitID+"/uncheck", {}, {
                 headers: {
-                    'Authorization': `Bearer ${props.token}`
+                    'Authorization': `Bearer ${userContexto.token}`
                 }
                 });
                 promise.then(res => {
@@ -95,7 +91,7 @@ export default function Hoje(props){
             } else{
                 const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/"+habitID+"/check", {}, {
                 headers: {
-                    'Authorization': `Bearer ${props.token}`
+                    'Authorization': `Bearer ${userContexto.token}`
                 }
                 });
                 promise.then(res => {
@@ -115,11 +111,7 @@ export default function Hoje(props){
 
     return(
         <Pagina>
-            <TopBar data-test='header'>
-                <Logo onClick={resetLogin}> TrackIt </Logo>
-                <ProfileImg data-test='avatar' src={props.image}></ProfileImg>
-            </TopBar>
-
+            <TopBar />
 
             <Header>
                 <MeusHabitos data-test='today'>
@@ -139,9 +131,9 @@ export default function Hoje(props){
             </HabitsContainer>
 
 
-        <Contexto.Provider value={{token: props.token}}>      
+ 
         <Menu reload={props.reload} setReload={props.setReload}/>
-        </Contexto.Provider>
+
         </Pagina>
     )
 }
@@ -182,13 +174,7 @@ const Header = styled.div`
     justify-content: initial;
     padding-left: 17px;
 `
-const ProfileImg = styled.img`
-    width: 51px;
-    height: 51px;
-    border-radius: 100%;
-    background-color: white;
-    margin-right: 18px;
-`
+
 const MeusHabitos = styled.h1`
     font-family: 'Lexend Deca', sans-serif;
     width: 100%;
@@ -196,27 +182,8 @@ const MeusHabitos = styled.h1`
     color: #126BA5;
     align-self: center;
 `
-const TopBar = styled.div`
-    width: 100%;
-    height: 70px;
-    background-color: #126BA5;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-    z-index:5;
-`
 
-const Logo = styled.p`
-    font-family: 'Playball';
-    font-size: 39px;
-    line-height: 49px;
-    color: white;
-    margin-left: 18px;
-`
+
 
 const Pagina = styled.div`
     width: 100%;

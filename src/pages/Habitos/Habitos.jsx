@@ -8,54 +8,26 @@ import Menu from "../../Menu";
 import HabitosCriados from "./HabitosCriados";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-//INICIO PARA TESTES
-const arrayteste = [
-	{
-		id: 1,
-		name: "Nome do hábito 1",
-		days: [1, 3, 5]
-	},
-	{
-		id: 2,
-		name: "Nome do hábito 2",
-		days: [1, 3, 4, 6]
-	},
-    {
-		id: 3,
-		name: "Nome do hábito 3",
-		days: [2, 4, 6]
-	},
-	{
-		id: 4,
-		name: "Nome do hábito 4",
-		days: [1, 3, 5, 6]
-	}
-
-]
-//FINAL PARA TESTES
-
+import { UserInfoContext } from "../../contextsfolder/UserInfoContext";
 
 export default function Habitos(props){
+    const userContexto = useContext(UserInfoContext);
     const contexto = useContext(Contexto);
     const navigate = useNavigate();
     const [thereIsHabits, setThereIsHabits] = useState(false)
     const [arrayDeHabitos, setArrayDeHabitos] = useState([])
-  
-
-    useEffect(() => {}, [])
     
     function resetLogin(){
-        props.setLoginFB(false)
+        contexto.setLoginFB(false)
         navigate('/')
-        props.setNewHabit('')
-        props.reset(false)
+        contexto.setNewHabit('')
+        contexto.reset(false)
     }
 
     useEffect(() => {
         const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', {
             headers: {
-              'Authorization': `Bearer ${props.token}`
+              'Authorization': `Bearer ${userContexto.token}`
             }
           });
         promise.then(res => {
@@ -65,15 +37,14 @@ export default function Habitos(props){
             props.setReload(false)
         }) .catch(res => console.log(res)) .finally()
     
-    }, [props.reload,props.token])
+    }, [props.reload,userContexto.token])
 
     function deleteHabit(x){
         const result = confirm('Você deseja excluir permanentemente o hábito ?')
-        console.log(x.target.id)
         if (result === true){
         const promise = axios.delete('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/' + x.target.id, {
             headers: {
-                'Authorization': `Bearer ${props.token}`
+                'Authorization': `Bearer ${userContexto.token}`
             }
         });
         promise.then(res => {
@@ -87,7 +58,7 @@ export default function Habitos(props){
 
             <TopBar data-test='header'>
                 <Logo onClick={resetLogin}> TrackIt </Logo>
-                <ProfileImg data-test='avatar' src={props.image}></ProfileImg>
+                <ProfileImg data-test='avatar' src={userContexto.image}></ProfileImg>
             </TopBar>
 
             <Header>
@@ -119,7 +90,7 @@ export default function Habitos(props){
                     </WeekDaysSelector>
 
                     <FormFooter>
-                        <CancelForm data-test='habit-create-cancel-btn' onClick={props.reset} type='button' /*type="reset"*/ value="Cancelar"/>
+                        <CancelForm data-test='habit-create-cancel-btn' onClick={contexto.reset} type='button' /*type="reset"*/ value="Cancelar"/>
                         <Contexto.Provider value={{fontSize: '16px', margin: false, text:'Salvar', width: '84px' , height: '35px', disabled: props.bool}}>
                         <Button datatest='habit-create-save-btn'></Button>
                         </Contexto.Provider>
@@ -136,20 +107,19 @@ export default function Habitos(props){
                 })}
                 
             </HabitsContainer>
-        <Contexto.Provider value={{token: props.token}}>      
+
         <Menu reload={props.reload} setReload={props.setReload}/>
-        </Contexto.Provider>
         </Pagina>
     )
 }
 const FormFooter = styled.div`
-width: 100%;
-height: 35px;
-margin-top: 38px;
-display: flex;
-flex-direction: row;
-align-items: center;
-justify-content: end;
+    width: 100%;
+    height: 35px;
+    margin-top: 38px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
 `
 const CancelForm = styled.input`
     font-family: 'Lexend Deca', sans-serif;

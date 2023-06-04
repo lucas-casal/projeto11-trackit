@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Route } from 'react-router-dom'
 import { Routes } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
@@ -8,6 +8,8 @@ import Habitos from './pages/Habitos/Habitos'
 import Historico from './pages/Historico/Historico'
 import axios from "axios";
 import Hoje from './pages/Hoje/Hoje'
+import { UserInfoContext} from './contextsfolder/UserInfoContext'
+import { Contexto } from './Context'
 axios.defaults.headers.common['Authorization'] = 'bv0Ks8i80MPdXuLLvCVzJc8f';
 
 export default function App() {
@@ -25,7 +27,7 @@ export default function App() {
   const [selectedIDs, setSelectedIDs] = useState([]);
   const [addingHabit, setAddingHabit] = useState(false) 
   const [reload, setReload] = useState(false);  
-  
+  const [userInfo, setUserInfo] = useState({})
 
   function handleEmail(x){
     const wrote = x.target.value;
@@ -47,21 +49,21 @@ export default function App() {
     setImage(wrote);
   }
 
-  function sendLogin(event){
-    event.preventDefault();
-    const x = {email: email, password: password}
-    console.log('O login enviado foi: \n Login: ' + x.email + "\n Senha: " + x.password);
+  function sendLogin(event, x = {email: email, password: password}){
+    event ? event.preventDefault() : '';
     setBool(true)
-
-    const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", {email: email, password: password});
+    const objSent = {email: x.email, password: x.password}
+    const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", objSent);
     promise.then(res => {
         console.log(res);
         setLoginFB(true)
         setBool(false)
-        setEmail(res.data.email)
         setName(res.data.name)
+        setEmail(res.data.email)
+        setPassword(res.data.password)
         setImage(res.data.image)
         setToken(res.data.token)
+        localStorage.setItem('userInfo', JSON.stringify({email: res.data.email, password: res.data.password, name: res.data.name, image: res.data.image,token: res.data.token}))
 
     }) .catch(res => {
       console.log(res)
@@ -74,7 +76,8 @@ export default function App() {
   }
 
   function sendRegister(event){
-    event.preventDefault();
+    event.preventDefault()
+
     const x = {email: email, password: password, name: name, image: image}
     console.log('O login enviado foi: \n Login: ' + x.email + "\n Senha: " + x.password + "\n Nome: " + x.name + "\n Foto: " + x.image)
     setBool(true)
@@ -113,15 +116,13 @@ export default function App() {
       
       selectedIDs.splice(selectedIDs.indexOf(x.target.id), 1)
       selectedWeekDays.splice(selectedWeekDays.indexOf(x.target.innerText), 1);
-      console.log(selectedWeekDays)
-      console.log(selectedIDs)
+
     } else{
       const newArrayID = [...selectedIDs, x.target.id]
       const newArrayDay = [...selectedWeekDays, x.target.innerText];
       setSelectedWeekDays(newArrayDay);
       setSelectedIDs(newArrayID);
-      console.log(newArrayDay)
-      console.log(newArrayID)
+
     }
   }
 
@@ -162,23 +163,31 @@ export default function App() {
     } else{
       alert('Faltou selecionar os dias da semana!')
     }
-
-
-console.log(selectedWeekDays)
-console.log(newHabit)
   }
 
+  useEffect(() => {
+    const userInfoStorage = localStorage.getItem('userInfo')
+    const InfoStorage = JSON.parse(userInfoStorage)
+    sendLogin('', InfoStorage)
+    setUserInfo(InfoStorage)
+  }, [])
+
+  
   return (
     <> 
   <BrowserRouter>
+  <UserInfoContext.Provider value={userInfo}>
+  <Contexto.Provider value={{setLoginFB: setLoginFB, setNewHabit: setNewHabit, reset: resetAddingHabit}}>
     <Routes>
       <Route path="/" element={<Homepage setRegisterFB={setRegisterFB} login={loginFB} resetInputs={resetInputs} bool={bool} handleEmail={handleEmail} handlePassword={handlePassword} sendLogin={sendLogin} />}></Route>
       <Route path="/cadastro" element={<Cadastro cadastro={registerFB} resetInputs={resetInputs} bool={bool} handleEmail={handleEmail} handlePassword={handlePassword} handleName={handleName} handleImage={handleImage} sendRegister={sendRegister}/>}></Route>
-      <Route path="/habitos" element={<Habitos setReload={setReload} reload={reload} setNewHabit={setNewHabit} image={image} token={token} setLoginFB={setLoginFB} postHabit={postHabit} newHabit={newHabit} createNewHabit={createNewHabit} addingHabit={addingHabit} reset={resetAddingHabit} IDs={selectedIDs} handleWeekDays={handleWeekDays} selectedWeekDays={selectedWeekDays} handleHabit={handleHabit} habitsArray={habitsArray} setHabitsArray={setHabitsArray} resetInputs={resetInputs} bool={bool} handleEmail={handleEmail} handlePassword={handlePassword} handleName={handleName} handleImage={handleImage} sendRegister={sendRegister}/>}></Route>
-      <Route path="/hoje" element={<Hoje setReload={setReload} setNewHabit={setNewHabit} reload={reload} image={image} token={token} setLoginFB={setLoginFB} bool={bool}reset={resetAddingHabit}/>}></Route>
-      <Route path="/historico" element={<Historico setReload={setReload} setNewHabit={setNewHabit} reload={reload} image={image} token={token} setLoginFB={setLoginFB} bool={bool} reset={resetAddingHabit}/>}></Route>
-    
+      <Route path="/habitos" element={<Habitos setReload={setReload} reload={reload}  postHabit={postHabit} newHabit={newHabit} createNewHabit={createNewHabit} addingHabit={addingHabit} IDs={selectedIDs} handleWeekDays={handleWeekDays} selectedWeekDays={selectedWeekDays} handleHabit={handleHabit} habitsArray={habitsArray} setHabitsArray={setHabitsArray} bool={bool}/>}></Route>
+      <Route path="/hoje" element={<Hoje setReload={setReload} reload={reload}  bool={bool} />}></Route>
+      <Route path="/historico" element={<Historico setReload={setReload} reload={reload}  bool={bool} />}></Route>
     </Routes>
+
+  </Contexto.Provider>
+  </UserInfoContext.Provider>
   </BrowserRouter>
     </>
   )

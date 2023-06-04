@@ -3,19 +3,18 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Contexto } from "./Context";
 import axios from "axios";
+import { UserInfoContext } from "./contextsfolder/UserInfoContext";
 
 export default function Menu(props){
-    const contexto = useContext(Contexto);
+    const userContexto = useContext(UserInfoContext)
     const [completedHabits, setCompletedHabits] = useState(0)
     const [todayHabits, setTodayHabits] = useState(0)
     const navigate = useNavigate();
-
     useEffect(() => {
         const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today', {
             headers: {
-              'Authorization': `Bearer ${contexto.token}`
+              'Authorization': `Bearer ${userContexto.token}`
             }
           });
         promise.then(res => {
@@ -32,7 +31,7 @@ export default function Menu(props){
             props.setReload(false);
    
         })
-    }, [props.reload,contexto.token])
+    }, [props.reload,userContexto.token])
 
 
     const percentage = completedHabits*100/todayHabits;

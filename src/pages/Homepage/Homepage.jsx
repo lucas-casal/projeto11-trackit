@@ -5,6 +5,7 @@ import { Contexto } from "../../Context";
 import Button from "../../Button";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserInfoContext } from "../../contextsfolder/UserInfoContext";
 
 
 export default function Homepage(props){

@@ -3,24 +3,25 @@ import styled from "styled-components";
 import Menu from "../../Menu";
 import { Contexto } from "../../Context";
 import { useNavigate } from "react-router-dom";
+import { UserInfoContext} from "../../contextsfolder/UserInfoContext";
+import Calendar from "react-calendar";
+import 'react-calendar/dist/Calendar.css';
+import TopBar from "../../TopBar";
 
 export default function Historico(props){
+    const userContexto = useContext(UserInfoContext)
     const contexto = useContext(Contexto)
     const navigate = useNavigate()
     function resetLogin(){
-        props.setLoginFB(false)
+        contexto.setLoginFB(false)
         navigate('/')
-        props.setNewHabit('')
-        props.reset(false)
+        contexto.setNewHabit('')
+        contexto.reset(false)
     }
 
     return(
         <Pagina>
-        <TopBar>
-        <Logo onClick={resetLogin}> TrackIt </Logo>
-        <ProfileImg src={props.image}></ProfileImg>
-        </TopBar>
-
+        <TopBar />
         <Header>
                 <MeusHabitos>
                    Histórico
@@ -29,8 +30,8 @@ export default function Historico(props){
                     {false ? '' : 'Em breve você poderá ver o histórico dos seus hábitos aqui!'}
                 </DayStatus>
         </Header>
-        
-        <Contexto.Provider value={{token: props.token}}>      
+        <Calendar />
+        <Contexto.Provider value={{token: userContexto.token}}>      
         <Menu reload={props.reload} setReload={props.setReload}/>
         </Contexto.Provider>
         </Pagina>
@@ -58,26 +59,7 @@ const DayStatus = styled.h2`
     margin-top: 17px;
     color: #666666;
 `
-const Logo = styled.p`
-    font-family: 'Playball';
-    font-size: 39px;
-    line-height: 49px;
-    color: white;
-    margin-left: 18px;
-`
-const TopBar = styled.div`
-    width: 100%;
-    height: 70px;
-    background-color: #126BA5;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-    z-index:5;
-`
+
     const Pagina = styled.div`
     width: 100%;
     height: 100%;
@@ -89,13 +71,7 @@ const TopBar = styled.div`
     background-color: #F2F2F2;
     overflow-y: scroll;
 `
-const ProfileImg = styled.img`
-    width: 51px;
-    height: 51px;
-    border-radius: 100%;
-    background-color: white;
-    margin-right: 18px;
-`
+
 const MeusHabitos = styled.h1`
     font-family: 'Lexend Deca', sans-serif;
     width: 100%;
