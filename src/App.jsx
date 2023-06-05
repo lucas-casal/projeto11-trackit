@@ -63,7 +63,8 @@ export default function App() {
         setPassword(res.data.password)
         setImage(res.data.image)
         setToken(res.data.token)
-        localStorage.setItem('userInfo', JSON.stringify({email: res.data.email, password: res.data.password, name: res.data.name, image: res.data.image,token: res.data.token}))
+        setUserInfo({email: res.data.email, password: res.data.password, name: res.data.name, image: res.data.image,token: res.data.token})
+        localStorage.setItem('userInfo', JSON.stringify(userInfo))
 
     }) .catch(res => {
       console.log(res)
@@ -172,8 +173,10 @@ export default function App() {
   useEffect(() => {
     const userInfoStorage = localStorage.getItem('userInfo')
     const InfoStorage = JSON.parse(userInfoStorage)
+    if (InfoStorage){
     sendLogin('', InfoStorage)
     setUserInfo(InfoStorage)
+    }
   }, [])
 
   
