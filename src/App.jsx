@@ -64,7 +64,7 @@ export default function App() {
         setImage(res.data.image)
         setToken(res.data.token)
         setUserInfo({email: res.data.email, password: res.data.password, name: res.data.name, image: res.data.image,token: res.data.token})
-        localStorage.setItem('userInfo', JSON.stringify(userInfo))
+        localStorage.setItem('userInfo', JSON.stringify({email: res.data.email, password: res.data.password, name: res.data.name, image: res.data.image,token: res.data.token}))
 
     }) .catch(res => {
       console.log(res)
