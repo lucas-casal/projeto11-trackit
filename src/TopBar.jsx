@@ -13,7 +13,6 @@ export default function TopBar(){
         contexto.setNewHabit('')
         contexto.reset(false)   
     }
-
     return(
     <Header data-test='header'>
         <Logo onClick={resetLogin}> TrackIt </Logo>
