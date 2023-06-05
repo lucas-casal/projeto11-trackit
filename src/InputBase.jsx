@@ -6,7 +6,7 @@ export default function Input(props){
 
     const contexto = useContext(Contexto);
     return(
-        <InputBase data-test={props.datatest} value={contexto.value} marginTop={contexto.marginTop} marginBot={contexto.marginBot} id={contexto.type} type={contexto.type} onChange={contexto.onChange}  disabled={contexto.disabled} placeholder={contexto.text} required></InputBase>
+        <InputBase data-test={props.datatest} value={contexto.value} marginTop={contexto.marginTop} marginBot={contexto.marginBot} id={contexto.type} type={contexto.type} onChange={contexto.onChange}  disabled={contexto.disabled} placeholder={contexto.text} required={()=> contexto.notRequired ? false : true}></InputBase>
     )
 }
 

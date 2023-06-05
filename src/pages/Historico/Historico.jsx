@@ -19,6 +19,7 @@ export default function Historico(props){
         contexto.reset(false)
     }
 
+    
     return(
         <Pagina>
         <TopBar />
@@ -30,13 +31,22 @@ export default function Historico(props){
                     {false ? '' : 'Em breve você poderá ver o histórico dos seus hábitos aqui!'}
                 </DayStatus>
         </Header>
-        <Calendar />
         <Contexto.Provider value={{token: userContexto.token}}>      
         <Menu reload={props.reload} setReload={props.setReload}/>
         </Contexto.Provider>
         </Pagina>
     )
 }
+const Calendario = styled(Calendar)`
+   height: 402px; 
+   width: 335px !important;
+   & button {
+    margin-top: 7px !important;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+   }
+`
 const Header = styled.div`
     box-sizing: border-box;
     width: 100%;
@@ -59,8 +69,7 @@ const DayStatus = styled.h2`
     margin-top: 17px;
     color: #666666;
 `
-
-    const Pagina = styled.div`
+const Pagina = styled.div`
     width: 100%;
     height: 100%;
     display: flex;

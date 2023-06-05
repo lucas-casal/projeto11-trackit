@@ -74,18 +74,18 @@ export default function Habitos(props){
             <CreatingHabit data-test='habit-create-container' addingHabit={props.addingHabit}>
                 <form onSubmit={props.postHabit}>
                     <Contexto.Provider value={{value: props.newHabit, marginTop: '9px', marginBot: '0' ,type: 'text', text:'nome do hábito', onChange: props.handleHabit, disabled: props.bool}}>
-                    <Input datatest='habit-name-input' required></Input>
+                    <Input datatest='habit-name-input'></Input>
                     </Contexto.Provider>
 
                     <WeekDaysSelector>
-                        <Contexto.Provider value={{addingHabit: props.addingHabit, IDs: props.IDs, add: props.handleWeekDays, selected: props.selectedWeekDays, disabled: props.bool, reset: props.reload}}>
-                        <WeekDay id = "0" day="D" />
-                        <WeekDay id = "1" day="S" />
-                        <WeekDay id = "2" day="T" />
-                        <WeekDay id = "3" day="Q" />
-                        <WeekDay id = "4" day="Q" />
-                        <WeekDay id = "5" day="S" />
-                        <WeekDay id = "6" day="S" />                        
+                        <Contexto.Provider value={{addingHabit: props.addingHabit, IDs: props.IDs, add: props.handleWeekDays, selected: props.selectedWeekDays, disabled: props.bool, reset: props.reload, notRequired: true}}>
+                        <WeekDay id = {0} day="D" />
+                        <WeekDay id = {1} day="S" />
+                        <WeekDay id = {2} day="T" />
+                        <WeekDay id = {3} day="Q" />
+                        <WeekDay id = {4} day="Q" />
+                        <WeekDay id = {5} day="S" />
+                        <WeekDay id = {6} day="S" />                        
                         </Contexto.Provider>
                     </WeekDaysSelector>
 
@@ -103,7 +103,7 @@ export default function Habitos(props){
                 </HabitsPlaceHolder> 
 
                 {arrayDeHabitos.map((x) => {
-                   return <HabitosCriados datatest={'habit-name'} key={x.id} id={x.id} deleteHabit={deleteHabit} name={x.name} weekdays={x.days}/>
+                   return <HabitosCriados datatestCONTAINER={'habit-container'} datatestNAME={'habit-name'} key={x.id} id={x.id} deleteHabit={deleteHabit} name={x.name} weekdays={x.days}/>
                 })}
                 
             </HabitsContainer>

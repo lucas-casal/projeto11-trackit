@@ -12,8 +12,8 @@ useEffect(() =>{
 
 
     return (
-        <Habit data-test='habit-container' key={props.id}>
-            <HabitName data-test={props.datatest}>
+        <Habit data-test={props.datatestCONTAINER} key={props.id}>
+            <HabitName data-test={props.datatestNAME}>
             {props.name}
             </HabitName>
 

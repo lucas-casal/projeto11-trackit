@@ -140,7 +140,7 @@ export default function App() {
   function postHabit(e){
     setBool(true)
     e.preventDefault(); 
-    if (selectedWeekDays.length > 0){
+    if (selectedWeekDays.length > 0 && newHabit !== ''){
       const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits',
       {
           name: newHabit,
@@ -160,8 +160,12 @@ export default function App() {
         setNewHabit('');
       }).catch(res => {alert(res.response.data.message);  setBool(false)})
 
+    } else if (newHabit === ''){
+      alert('Você deve inserir um nome para o seu hábito')
+      setBool(false)
     } else{
       alert('Faltou selecionar os dias da semana!')
+      setBool(false)
     }
   }
 

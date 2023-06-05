@@ -123,7 +123,7 @@ export default function Hoje(props){
             </Header>
             <HabitsContainer>
                 {arrayDeHabitos.map((x) => {
-                   return <HabitosCriados datatest={'today-habit-name'} onClick={madeTheHabit} key={x.id} id={x.id} name={x.name} highestSequence={x.highestSequence} currentSequence={x.currentSequence} record={x.record} done={x.done} weekdays={hide}/>
+                   return <HabitosCriados datatestCONTAINER={'today-habit-container'} datatestNAME={'today-habit-name'} onClick={madeTheHabit} key={x.id} id={x.id} name={x.name} highestSequence={x.highestSequence} currentSequence={x.currentSequence} record={x.record} done={x.done} weekdays={hide}/>
                 })}
                 
                 
